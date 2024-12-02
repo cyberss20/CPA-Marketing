@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ads Viewer</title>
+    <title>Auto Ads Viewer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,19 +15,6 @@
         h1 {
             margin-bottom: 20px;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
         iframe {
             width: 90%;
             height: 70vh;
@@ -35,26 +22,52 @@
             margin-top: 20px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
+        #timer {
+            font-size: 18px;
+            color: red;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <h1>Ads Viewer</h1>
-    <div>
-        <button onclick="showDirectView()">Direct View</button>
-        <button onclick="showNonDirectView()">Non-Direct View</button>
-    </div>
-    <div id="timer" style="font-size: 18px; margin-top: 10px; color: red;"></div>
+    <h1>Auto Ads Viewer</h1>
+    <div id="timer"></div>
     <iframe id="adsFrame" src="" title="Advertisement"></iframe>
 
     <script>
-        const directAds = [
-            "https://zireemilsoude.net/4/8581136",
-            "https://zireemilsoude.net/4/8581130",
-            "https://zireemilsoude.net/4/8579811",
-            "https://zireemilsoude.net/4/8581132",
-            "https://zireemilsoude.net/4/8581133",
-            "https://zireemilsoude.net/4/8581135",
-            "https://zireemilsoude.net/4/8581131"
+        const adsScripts = [
+            "<script src='//niphaumeenses.net/vignette.min.js' data-zone='8591664' data-sdk='show_8591664'></script>",
+            `<script type="text/javascript">
+                atOptions = {
+                    'key' : 'ae49b1da436540f4d94865b98da9e95e',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//bashfortitudeaffability.com/ae49b1da436540f4d94865b98da9e95e/invoke.js"></script>`,
+            `<script type="text/javascript">
+                atOptions = {
+                    'key' : '700ac2354954ee8787460af5a15a1fbc',
+                    'format' : 'iframe',
+                    'height' : 60,
+                    'width' : 468,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//bashfortitudeaffability.com/700ac2354954ee8787460af5a15a1fbc/invoke.js"></script>`,
+            "<script type='text/javascript' src='//bashfortitudeaffability.com/a5/85/8a/a5858a8d469c5fb2c80fd4222158647e.js'></script>",
+            `<script type="text/javascript">
+                atOptions = {
+                    'key' : '426157408e7080bd17fc0a25d39a460a',
+                    'format' : 'iframe',
+                    'height' : 50,
+                    'width' : 320,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//bashfortitudeaffability.com/426157408e7080bd17fc0a25d39a460a/invoke.js"></script>`
         ];
 
         let currentIndex = 0;
@@ -63,38 +76,26 @@
         const timerDiv = document.getElementById("timer");
         let interval;
 
-        // Function to show direct ads
-        function showDirectView() {
-            clearInterval(interval); // Clear any existing intervals
-            frame.src = directAds[currentIndex];
-            countdown = 20;
-            updateTimer();
-            interval = setInterval(() => {
-                if (countdown > 0) {
-                    countdown--;
-                    updateTimer();
-                } else {
-                    currentIndex = (currentIndex + 1) % directAds.length;
-                    frame.src = directAds[currentIndex];
-                    countdown = 20;
-                }
-            }, 1000);
+        function loadAd() {
+            if (currentIndex < adsScripts.length) {
+                frame.srcdoc = adsScripts[currentIndex];
+            }
+            currentIndex = (currentIndex + 1) % adsScripts.length;
+            countdown = 20; // Reset timer
         }
 
-        // Function to show non-direct ads
-        function showNonDirectView() {
-            clearInterval(interval); // Clear any existing intervals
-            frame.src = "about:blank"; // Reset iframe before loading script
-            frame.contentWindow.document.open();
-            frame.contentWindow.document.write(`<script src='//niphaumeenses.net/vignette.min.js' data-zone='8591664' data-sdk='show_8591664'></script>`);
-            frame.contentWindow.document.close();
-            timerDiv.textContent = ""; // Clear timer for non-direct view
-        }
-
-        // Function to update the timer
         function updateTimer() {
-            timerDiv.textContent = `Next ad in: ${countdown} seconds`;
+            if (countdown > 0) {
+                timerDiv.textContent = `Next ad in: ${countdown} seconds`;
+                countdown--;
+            } else {
+                loadAd();
+            }
         }
+
+        // Start displaying ads
+        loadAd();
+        interval = setInterval(updateTimer, 1000);
     </script>
 </body>
 </html>
