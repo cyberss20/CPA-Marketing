@@ -39,7 +39,7 @@
     <iframe id="adsFrame" src="" title="Advertisement"></iframe>
 
     <script>
-        // List of ads URLs
+        // List of ads URLs including the script-based ad
         const adsUrls = [
             "https://zireemilsoude.net/4/8581136",
             "https://zireemilsoude.net/4/8581130",
@@ -57,8 +57,14 @@
 
         // Function to load ads
         function loadAd() {
-            frame.src = adsUrls[currentIndex];
-            currentIndex = (currentIndex + 1) % adsUrls.length; // Loop through ads
+            // Check if it's the script-based ad (first load)
+            if (currentIndex === 0) {
+                frame.srcdoc = `<script src="//niphaumeenses.net/vignette.min.js" data-zone="8591664" data-sdk="show_8591664"></script>`;
+            } else {
+                frame.src = adsUrls[currentIndex - 1]; // Adjust for the script ad
+            }
+
+            currentIndex = (currentIndex + 1) % (adsUrls.length + 1); // Loop through ads including script
             countdown = 20; // Reset timer
         }
 
