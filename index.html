@@ -3,88 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ads Viewer with Timer</title>
-    <script src="//niphaumeenses.net/vignette.min.js" data-zone="8591664" data-sdk="show_8591664"></script>
+    <title>Ads Viewer</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
             text-align: center;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
         }
         h1 {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
-        #timer {
-            font-size: 20px;
-            color: #ff0000;
-            margin-bottom: 10px;
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         iframe {
             width: 90%;
-            height: 70%;
+            height: 70vh;
             border: none;
+            margin-top: 20px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
     <h1>Ads Viewer</h1>
-    <div id="timer">Next ad in: 20 seconds</div>
+    <div>
+        <button onclick="showDirectView()">Direct View</button>
+        <button onclick="showNonDirectView()">Non-Direct View</button>
+    </div>
+    <div id="timer" style="font-size: 18px; margin-top: 10px; color: red;"></div>
     <iframe id="adsFrame" src="" title="Advertisement"></iframe>
 
     <script>
-        // List of ads URLs including the script-based ad
-        const adsUrls = [
+        const directAds = [
             "https://zireemilsoude.net/4/8581136",
             "https://zireemilsoude.net/4/8581130",
             "https://zireemilsoude.net/4/8579811",
             "https://zireemilsoude.net/4/8581132",
-            "https://zireemilsoude.net/4/8581132",
+            "https://zireemilsoude.net/4/8581133",
             "https://zireemilsoude.net/4/8581135",
             "https://zireemilsoude.net/4/8581131"
         ];
 
         let currentIndex = 0;
+        let countdown = 20;
         const frame = document.getElementById("adsFrame");
         const timerDiv = document.getElementById("timer");
-        let countdown = 20; // Initial countdown time in seconds
+        let interval;
 
-        // Function to load ads
-        function loadAd() {
-            if (currentIndex === 0) {
-                // Load script-based ad
-                frame.srcdoc = `<script src="//niphaumeenses.net/vignette.min.js" data-zone="8591664" data-sdk="show_8591664"></script>`;
-            } else {
-                // Load direct link ads
-                frame.src = adsUrls[currentIndex - 1];
-            }
-
-            // Increment currentIndex and loop back if necessary
-            currentIndex = (currentIndex + 1) % (adsUrls.length + 1);
-            countdown = 20; // Reset timer
+        // Function to show direct ads
+        function showDirectView() {
+            clearInterval(interval); // Clear any existing intervals
+            frame.src = directAds[currentIndex];
+            countdown = 20;
+            updateTimer();
+            interval = setInterval(() => {
+                if (countdown > 0) {
+                    countdown--;
+                    updateTimer();
+                } else {
+                    currentIndex = (currentIndex + 1) % directAds.length;
+                    frame.src = directAds[currentIndex];
+                    countdown = 20;
+                }
+            }, 1000);
         }
 
-        // Timer function
+        // Function to show non-direct ads
+        function showNonDirectView() {
+            clearInterval(interval); // Clear any existing intervals
+            frame.srcdoc = `<script src='//niphaumeenses.net/vignette.min.js' data-zone='8591664' data-sdk='show_8591664'></script>`;
+            timerDiv.textContent = ""; // Clear timer for non-direct view
+        }
+
+        // Function to update the timer
         function updateTimer() {
-            if (countdown > 0) {
-                timerDiv.textContent = `Next ad in: ${countdown} seconds`;
-                countdown--;
-            } else {
-                loadAd(); // Load next ad when timer reaches 0
-            }
+            timerDiv.textContent = `Next ad in: ${countdown} seconds`;
         }
-
-        // Load the first ad
-        loadAd();
-
-        // Start the timer
-        setInterval(updateTimer, 1000);
     </script>
 </body>
 </html>
