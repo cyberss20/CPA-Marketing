@@ -84,7 +84,10 @@
         // Function to show non-direct ads
         function showNonDirectView() {
             clearInterval(interval); // Clear any existing intervals
-            frame.srcdoc = `<script src='//niphaumeenses.net/vignette.min.js' data-zone='8591664' data-sdk='show_8591664'></script>`;
+            frame.src = "about:blank"; // Reset iframe before loading script
+            frame.contentWindow.document.open();
+            frame.contentWindow.document.write(`<script src='//niphaumeenses.net/vignette.min.js' data-zone='8591664' data-sdk='show_8591664'></script>`);
+            frame.contentWindow.document.close();
             timerDiv.textContent = ""; // Clear timer for non-direct view
         }
 
