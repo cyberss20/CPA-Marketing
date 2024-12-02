@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ads with Timer</title>
+    <script src="//niphaumeenses.net/vignette.min.js" data-zone="8591664" data-sdk="show_8591664"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        #timer {
+            font-size: 20px;
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+        iframe {
+            width: 90%;
+            height: 70%;
+            border: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Ads Viewer</h1>
+    <div id="timer">Next ad in: 20 seconds</div>
+    <iframe id="adsFrame" src="" title="Advertisement"></iframe>
+
+    <script>
+        // List of ads URLs
+        const adsUrls = [
+            "https://zireemilsoude.net/4/8581136",
+            "https://zireemilsoude.net/4/8581130",
+            "https://zireemilsoude.net/4/8579811",
+            "https://zireemilsoude.net/4/8581132",
+            "https://zireemilsoude.net/4/8581132",
+            "https://zireemilsoude.net/4/8581135",
+            "https://zireemilsoude.net/4/8581131"
+        ];
+
+        let currentIndex = 0;
+        const frame = document.getElementById("adsFrame");
+        const timerDiv = document.getElementById("timer");
+        let countdown = 20; // Initial countdown time in seconds
+
+        // Function to load ads
+        function loadAd() {
+            frame.src = adsUrls[currentIndex];
+            currentIndex = (currentIndex + 1) % adsUrls.length; // Loop through ads
+            countdown = 20; // Reset timer
+        }
+
+        // Timer function
+        function updateTimer() {
+            if (countdown > 0) {
+                timerDiv.textContent = `Next ad in: ${countdown} seconds`;
+                countdown--;
+            } else {
+                loadAd(); // Load next ad when timer reaches 0
+            }
+        }
+
+        // Load the first ad
+        loadAd();
+
+        // Start the timer
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
