@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ads with Timer</title>
+    <title>Ads Viewer with Timer</title>
     <script src="//niphaumeenses.net/vignette.min.js" data-zone="8591664" data-sdk="show_8591664"></script>
     <style>
         body {
@@ -57,14 +57,16 @@
 
         // Function to load ads
         function loadAd() {
-            // Check if it's the script-based ad (first load)
             if (currentIndex === 0) {
+                // Load script-based ad
                 frame.srcdoc = `<script src="//niphaumeenses.net/vignette.min.js" data-zone="8591664" data-sdk="show_8591664"></script>`;
             } else {
-                frame.src = adsUrls[currentIndex - 1]; // Adjust for the script ad
+                // Load direct link ads
+                frame.src = adsUrls[currentIndex - 1];
             }
 
-            currentIndex = (currentIndex + 1) % (adsUrls.length + 1); // Loop through ads including script
+            // Increment currentIndex and loop back if necessary
+            currentIndex = (currentIndex + 1) % (adsUrls.length + 1);
             countdown = 20; // Reset timer
         }
 
